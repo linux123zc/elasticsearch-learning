@@ -1,0 +1,73 @@
+CAT API: https://www.elastic.co/guide/en/elasticsearch/reference/7.1/cat-indices.html
+
+# 查看别名
+GET /_cat/aliases?v
+
+# 显示为每个数据节点分配了多少个分片，以及它们使用了多少磁盘空间
+GET /_cat/allocation?v
+
+# 整个集群或单个索引的文档计数
+GET /_cat/count?v
+
+GET /_cat/count/movies?v
+
+# 显示集群中每个数据节点上的fielddata当前使用了多少堆内存
+GET /_cat/fielddata?v
+
+# 得到集群的健康状况
+GET /_cat/health?v
+
+# 查看索引的信息
+GET /_cat/indices
+
+GET /_cat/indices/mo*?v&s=index
+
+GET /_cat/indices?v&health=yellow
+
+# 得到文档数量最多的索引
+GET /_cat/indices?v&s=docs.count:desc
+
+GET /_cat/indices/movies?pri&v&h=health,index,pri,rep,docs.count,mt
+
+# 显示节点信息
+GET /_cat/master?v
+
+# 得到自定义节点属性
+GET /_cat/nodeattrs?v
+
+# 显示集群 top
+GET /_cat/nodes?v
+
+GET /_cat/pending_tasks?v
+
+# 查看插件
+GET /_cat/plugins?v&s=component&h=name,component,version,description
+
+# 正在进行和已经完成的索引碎片恢复的视图
+GET _cat/recovery?v
+
+GET _cat/recovery?v&h=i,s,t,ty,st,rep,snap,f,fp,b,bp
+
+# 查看快照仓库
+GET /_cat/repositories?v
+
+# 每个节点的集群线程池统计信息
+GET /_cat/thread_pool
+
+GET /_cat/thread_pool/generic?v&h=id,name,active,rejected,completed
+
+# 分片的详细视图
+GET _cat/shards
+
+GET _cat/shards?h=index,shard,prirep,state,unassigned.reason
+
+GET /_cat/segments?v
+
+# 索引分片中的段的低层信息
+GET /_cat/segments?v
+
+GET /_cat/snapshots/repo1?v&s=id
+
+GET /_cat/templates?v&s=name
+
+

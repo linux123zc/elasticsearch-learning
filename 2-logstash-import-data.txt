@@ -1,0 +1,81 @@
+# 下载最MovieLens最小测试数据集: https://grouplens.org/datasets/movielens/
+# Logstash下载: https://www.elastic.co/cn/downloads/logstash
+# Logstash参考文档: https://www.elastic.co/guide/en/logstash/current/index.html
+# logstash配置: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+
+1. install logstash
+
+2. download MovieLens test data
+wget http://files.grouplens.org/datasets/movielens/ml-latest-small.zip
+
+3. touch logstash.conf
+'''
+input {
+  file {
+    path => "/cloudclusters/ml-latest-small/movies.csv"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+}
+filter {
+  csv {
+    separator => ","
+    columns => ["id","content","genre"]
+  }
+
+  mutate {
+    split => { "genre" => "|" }
+    remove_field => ["path", "host","@timestamp","message"]
+  }
+
+  mutate {
+    split => ["content", "("]
+    add_field => { "title" => "%{[content][0]}"}
+    add_field => { "year" => "%{[content][1]}"}
+  }
+
+  mutate {
+    convert => {
+      "year" => "integer"
+    }
+    strip => ["title"]
+    remove_field => ["path", "host","@timestamp","message","content"]
+  }
+
+}
+output {
+   elasticsearch {
+     hosts => "https://elasticsearch-4570-0.tripanels.com:4608"
+     index => "movies"
+     document_id => "%{id}"
+     user => "elastic"
+     password => "Kt0gJjnP"
+   }
+  stdout {}
+}
+'''
+
+4. start import data  (logstash 启动需要一段时间)
+/usr/share/logstash/bin/logstash -f logstash.conf
+
+5. 可以在终端看到有数据注入到了 es 里面
+{
+        "year" => 2018,
+       "title" => "Bungo Stray Dogs: Dead Apple",
+          "id" => "193587",
+    "@version" => "1",
+       "genre" => [
+        [0] "Action",
+        [1] "Animation"
+    ]
+}
+{
+        "year" => 1991,
+       "title" => "Andrew Dice Clay: Dice Rules",
+          "id" => "193609",
+    "@version" => "1",
+       "genre" => [
+        [0] "Comedy"
+    ]
+}
+
