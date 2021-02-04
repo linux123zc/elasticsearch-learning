@@ -1,5 +1,9 @@
 CAT API: https://www.elastic.co/guide/en/elasticsearch/reference/7.1/cat-indices.html
 
+为什么不再支持单个Index下，多个Tyeps
+https://www.elastic.co/cn/blog/moving-from-types-to-typeless-apis-in-elasticsearch-7-0
+
+
 # 查看别名
 GET /_cat/aliases?v
 
@@ -10,6 +14,8 @@ GET /_cat/allocation?v
 GET /_cat/count?v
 
 GET /_cat/count/movies?v
+
+GET movies/_count
 
 # 显示集群中每个数据节点上的fielddata当前使用了多少堆内存
 GET /_cat/fielddata?v
@@ -70,4 +76,5 @@ GET /_cat/snapshots/repo1?v&s=id
 
 GET /_cat/templates?v&s=name
 
-
+# 查看前10条文档，了解文档格式
+GET movies/_search

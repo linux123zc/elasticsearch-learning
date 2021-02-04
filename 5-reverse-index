@@ -1,0 +1,19 @@
+# 倒排索引
+
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "Mastering Elasticsearch"
+}
+
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "Elasticsearch Server"
+}
+
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "Elasticsearch Essentials"
+}
